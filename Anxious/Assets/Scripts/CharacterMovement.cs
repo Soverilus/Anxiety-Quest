@@ -23,7 +23,7 @@ public class CharacterMovement : MonoBehaviour {
             myRB.AddForce(ReturnAngleDir(HorzForce(myInput)) * moveSpeed);
         }
         if (myRB.velocity.sqrMagnitude > 0) {
-            myRB.AddForce(myRB.velocity.normalized * -0.25f * moveSpeed);
+            myRB.AddForce(myRB.velocity.normalized * -0.5f * moveSpeed);
         }
     }
 

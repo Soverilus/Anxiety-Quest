@@ -5,10 +5,10 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour {
     public GameObject myTargetObj;
     Vector3 myTarget;
-    private void Update() {
+
+    private void FixedUpdate() {
         myTarget = myTargetObj.transform.position;
-        myTarget = UseMyZAxis(myTarget);
-        transform.position = Vector3.Lerp(transform.position, myTarget, 0.25f);
+        transform.position = Vector3.Lerp(transform.position, UseMyZAxis(myTarget), 0.25f);
     }
 
     private Vector3 UseMyZAxis(Vector3 target) {
