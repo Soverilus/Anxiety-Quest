@@ -48,17 +48,17 @@ public class JumpController : MonoBehaviour {
         //determines whether our bool, grounded, is true or false by seeing if our groundcheck overlaps something on the ground layer
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
         //if we are grounded...
-        if (grounded) {
+        if (grounded && stoppedJumping) {
             //the jumpcounter is whatever we set jumptime to in the editor.
-            jumpTimeCounter = jumpTime;
+            jumpTimeCounter = 0;
         }
     }
 
     void JumpFunct() {
         //if you press down the jump button...
-        if (Input.GetAxis("Jump") > 0) {
+        if (Input.GetAxisRaw("Jump") > 0) {
             //and you are on the ground...
-            if (grounded) {
+            if (grounded && stoppedJumping) {
                 //jump!
                 /*if (myHorzMovement != 0 && !hasMovedThisFrame) {
                     hasMovedThisFrame = true;
@@ -70,23 +70,23 @@ public class JumpController : MonoBehaviour {
             }
         }
         //if you keep holding down the jump button...
-        if (Input.GetAxis("Jump") > 0 && !stoppedJumping) {
+        if (Input.GetAxisRaw("Jump") > 0 && !stoppedJumping) {
             //and your counter hasn't reached zero...
-            if (jumpTimeCounter > 0) {
+            if (jumpTimeCounter <= jumpTime) {
                 //keep jumping!
                 /*if (myHorzMovement != 0 && !hasMovedThisFrame) {
                     hasMovedThisFrame = true;
                     rb.velocity = new Vector2(rb.velocity.x + Time.deltaTime * myMB.MovementCalc(myHorzMovement), jumpForce);
                 }
                 else*/
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                jumpTimeCounter -= Time.deltaTime;
+                jumpTimeCounter += Time.deltaTime;
+                rb.velocity = new Vector2(rb.velocity.x, /*Mathf.Clamp(*/jumpForce /*- jumpTimeCounter, 0f, jumpForce)*/);
             }
         }
         //if you stop holding down the jump button...
-        if (Input.GetAxis("Jump") == 0) {
-            //stop jumping and set your counter to zero.  The timer will reset once we touch the ground again in the update function.
-            jumpTimeCounter = 0;
+        if (Input.GetAxisRaw("Jump") == 0) {
+            //stop jumping and set your counter to zero.  The timer will reset once we touch the ground again in the Groundchecker function.
+            jumpTimeCounter = jumpTime;
             stoppedJumping = true;
         }
     }

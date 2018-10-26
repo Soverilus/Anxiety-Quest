@@ -35,7 +35,7 @@ public class MovementBasic : MonoBehaviour {
         if (myRB.velocity.x > -maxMoveSpeed && myInput < 0f) {
             myRB.AddForce(ReturnAngleDir(myInput, Vector3.left) * moveSpeed);
         }
-        if (myRB.velocity.x > 0 && myInput == 0f) {
+        if (myRB.velocity.x != 0 && myInput == 0f) {
             myRB.AddForce(new Vector2(myRB.velocity.x * -1f * moveSpeed, 0f));
         }
     }
