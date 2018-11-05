@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class JumpController : MonoBehaviour {
+    CharacterStats myCS;
     MovementBasic myMB;
     /*these floats are the force you use to jump, the max time you want your jump to be allowed to happen,
      * and a counter to track how long you have been jumping*/
     public float jumpForce;
+    public float wallJumpForce;
     public float jumpTime;
     public float jumpTimeCounter;
     bool hasMovedThisFrame;
@@ -16,6 +18,8 @@ public class JumpController : MonoBehaviour {
      * ground objects to this layer.
      * The stoppedJumping bool lets us track when the player stops jumping.*/
     public bool grounded;
+    public bool wallRiding;
+    float wallDirection;
     public LayerMask whatIsGround;
     public bool stoppedJumping;
 
@@ -30,18 +34,21 @@ public class JumpController : MonoBehaviour {
     private Rigidbody2D rb;
 
     void Start() {
+        myCS = GetComponent<CharacterStats>();
         myMB = GetComponent<MovementBasic>();
         //sets the jumpCounter to whatever we set our jumptime to in the editor
         jumpTimeCounter = jumpTime;
         rb = GetComponent<Rigidbody2D>();
     }
 
-
     void Update() {
-        //hasMovedThisFrame = false;
-        //myHorzMovement = Input.GetAxisRaw("Horizontal");
-        JumpFunct();
-        GroundChecker();
+        if (myCS.canJump) {
+            //hasMovedThisFrame = false;
+            //myHorzMovement = Input.GetAxisRaw("Horizontal");
+            JumpFunct();
+            GroundChecker();
+        }
+        WallRidingChanger();
     }
 
     void GroundChecker() {
@@ -53,34 +60,49 @@ public class JumpController : MonoBehaviour {
             jumpTimeCounter = 0;
         }
     }
+    void WallRidingChanger() {
+        if (wallRiding) {
+            rb.AddForce(new Vector2(-rb.velocity.x, 0f));
+            if (rb.velocity.y <= 0f) {
+                rb.velocity = new Vector2(rb.velocity.x, Physics.gravity.y * 0.75f * Time.deltaTime);
+            }
+        }
+    }
+
+    public void WallChecker(float dirMult) {
+            if (!grounded) {
+                wallRiding = true;
+                wallDirection = dirMult;
+        }
+    }
 
     void JumpFunct() {
         //if you press down the jump button...
         if (Input.GetAxisRaw("Jump") > 0) {
             //and you are on the ground...
-            if (grounded && stoppedJumping) {
-                //jump!
-                /*if (myHorzMovement != 0 && !hasMovedThisFrame) {
-                    hasMovedThisFrame = true;
-                    rb.velocity = new Vector2(rb.velocity.x + Time.deltaTime * myMB.MovementCalc(myHorzMovement), jumpForce);
+            if (stoppedJumping) {
+                if (grounded && !wallRiding) {
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    stoppedJumping = false;
                 }
-                else*/
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                stoppedJumping = false;
+                if (myCS.canWallJump) {
+                    if (!grounded && wallRiding) {
+                        Debug.Log("isThisCalling?");
+                        stoppedJumping = false;
+                        wallRiding = false;
+                        jumpTimeCounter = 0.5f * jumpTime;
+                        rb.AddForce(new Vector2(wallJumpForce * wallDirection, 0f));
+                        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                    }
+                }
             }
         }
         //if you keep holding down the jump button...
         if (Input.GetAxisRaw("Jump") > 0 && !stoppedJumping) {
             //and your counter hasn't reached zero...
             if (jumpTimeCounter <= jumpTime) {
-                //keep jumping!
-                /*if (myHorzMovement != 0 && !hasMovedThisFrame) {
-                    hasMovedThisFrame = true;
-                    rb.velocity = new Vector2(rb.velocity.x + Time.deltaTime * myMB.MovementCalc(myHorzMovement), jumpForce);
-                }
-                else*/
                 jumpTimeCounter += Time.deltaTime;
-                rb.velocity = new Vector2(rb.velocity.x, /*Mathf.Clamp(*/jumpForce /*- jumpTimeCounter, 0f, jumpForce)*/);
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             }
         }
         //if you stop holding down the jump button...

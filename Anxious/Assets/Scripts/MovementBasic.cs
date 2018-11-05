@@ -52,6 +52,6 @@ public class MovementBasic : MonoBehaviour {
     }
     void ReturnAngleForce(RaycastHit2D hit) {
         myAngle = Vector2.Angle(hit.normal, Vector2.up);
-        Debug.Log(myAngle);
+        //Debug.Log(myAngle);
     }
 }
