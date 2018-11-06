@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementBasic : MonoBehaviour {
-
+    JumpController myJC;
     Rigidbody2D myRB;
     float myInput;
     public float myMoveSpeed;
@@ -35,7 +35,11 @@ public class MovementBasic : MonoBehaviour {
         if (myRB.velocity.x > -maxMoveSpeed && myInput < 0f) {
             myRB.AddForce(ReturnAngleDir(myInput, Vector3.left) * moveSpeed);
         }
-        if (myRB.velocity.x != 0 && myInput == 0f) {
+        if (
+            (myRB.velocity.x > 0f && myInput <= 0f) ||
+            (myRB.velocity.x < 0f && myInput >= 0f)
+            ) {
+
             myRB.AddForce(new Vector2(myRB.velocity.x * -1f * moveSpeed, 0f));
         }
     }
@@ -52,6 +56,5 @@ public class MovementBasic : MonoBehaviour {
     }
     void ReturnAngleForce(RaycastHit2D hit) {
         myAngle = Vector2.Angle(hit.normal, Vector2.up);
-        //Debug.Log(myAngle);
     }
 }

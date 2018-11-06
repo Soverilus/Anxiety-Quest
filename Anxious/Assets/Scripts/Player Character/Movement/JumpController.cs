@@ -11,7 +11,10 @@ public class JumpController : MonoBehaviour {
     public float wallJumpForce;
     public float jumpTime;
     public float jumpTimeCounter;
+    public float wallJumpTime;
+    public float wallJumpTimeCounter;
     bool hasMovedThisFrame;
+    public bool isHoldingJump;
     float myHorzMovement;
     /*this bool is to tell us whether you are on the ground or not
      * the layermask lets you select a layer to be ground; you will need to create a layer named ground(or whatever you like) and assign your
@@ -22,6 +25,7 @@ public class JumpController : MonoBehaviour {
     float wallDirection;
     public LayerMask whatIsGround;
     public bool stoppedJumping;
+    public bool stoppedWallJumping;
 
     /*the public transform is how you will detect whether we are touching the ground.
      * Add an empty game object as a child of your player and position it at your feet, where you touch the ground.
@@ -57,12 +61,13 @@ public class JumpController : MonoBehaviour {
         //if we are grounded...
         if (grounded && stoppedJumping) {
             //the jumpcounter is whatever we set jumptime to in the editor.
-            jumpTimeCounter = 0;
+            if (!isHoldingJump) {
+                jumpTimeCounter = 0;
+            }
         }
     }
     void WallRidingChanger() {
         if (wallRiding) {
-            rb.AddForce(new Vector2(-rb.velocity.x, 0f));
             if (rb.velocity.y <= 0f) {
                 rb.velocity = new Vector2(rb.velocity.x, Physics.gravity.y * 0.75f * Time.deltaTime);
             }
@@ -70,45 +75,55 @@ public class JumpController : MonoBehaviour {
     }
 
     public void WallChecker(float dirMult) {
-            if (!grounded) {
-                wallRiding = true;
-                wallDirection = dirMult;
+        if (!grounded) {
+            wallRiding = true;
+            wallDirection = dirMult * wallJumpForce * 1.25f;
+            if (!isHoldingJump) {
+                wallJumpTimeCounter = 0f;
+            }
         }
     }
 
     void JumpFunct() {
         //if you press down the jump button...
         if (Input.GetAxisRaw("Jump") > 0) {
-            //and you are on the ground...
-            if (stoppedJumping) {
-                if (grounded && !wallRiding) {
-                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                    stoppedJumping = false;
-                }
-                if (myCS.canWallJump) {
-                    if (!grounded && wallRiding) {
-                        Debug.Log("isThisCalling?");
-                        stoppedJumping = false;
-                        wallRiding = false;
-                        jumpTimeCounter = 0.5f * jumpTime;
-                        rb.AddForce(new Vector2(wallJumpForce * wallDirection, 0f));
+            if (!isHoldingJump) {
+                isHoldingJump = true;
+                //and you are on the ground...
+                if (stoppedJumping) {
+                    if (grounded && !wallRiding) {
                         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                        stoppedJumping = false;
+                    }
+                    if (myCS.canWallJump && stoppedWallJumping && wallRiding && !grounded) {
+                        stoppedWallJumping = false;
+                        rb.velocity = new Vector2(wallDirection, wallJumpForce);
                     }
                 }
             }
         }
         //if you keep holding down the jump button...
-        if (Input.GetAxisRaw("Jump") > 0 && !stoppedJumping) {
-            //and your counter hasn't reached zero...
-            if (jumpTimeCounter <= jumpTime) {
-                jumpTimeCounter += Time.deltaTime;
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        if (isHoldingJump) {
+            if (!stoppedJumping) {
+                //and your counter hasn't reached zero...
+                if (jumpTimeCounter < jumpTime) {
+                    jumpTimeCounter += Time.deltaTime;
+                    rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                }
+            }
+            if (!stoppedWallJumping) {
+                if (wallJumpTimeCounter < wallJumpTime) {
+                    wallJumpTimeCounter += Time.deltaTime;
+                    rb.velocity = new Vector2(wallDirection, wallJumpForce);
+                }
             }
         }
         //if you stop holding down the jump button...
         if (Input.GetAxisRaw("Jump") == 0) {
+            isHoldingJump = false;
             //stop jumping and set your counter to zero.  The timer will reset once we touch the ground again in the Groundchecker function.
             jumpTimeCounter = jumpTime;
+            stoppedWallJumping = true;
             stoppedJumping = true;
         }
     }
