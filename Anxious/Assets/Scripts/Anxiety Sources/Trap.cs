@@ -16,23 +16,19 @@ public class Trap : MonoBehaviour {
                 entityCS.DamageMe(damage);
             }
             targetRB = collision.gameObject.GetComponent<Rigidbody2D>();
-            Vector2 bounceVector = new Vector2(targetRB.transform.position.x - collision.GetContact(0).point.x, targetRB.transform.position.y - collision.GetContact(0).point.y).normalized;
-            bounceVector.x *= maxX;
-            if (bounceVector.x == 0f) AntiClamp(bounceVector.x, -1f, 1f);
-            if (bounceVector.x > 0f) Mathf.Clamp(bounceVector.x, 1f, maxX);
-            if (bounceVector.x < 0f) Mathf.Clamp(bounceVector.x, -1f, -maxX);
-            if (bounceVector.y != 0f) bounceVector.y /= intensity;
+            Vector2 bounceVector = new Vector2(targetRB.transform.position.x - transform.position.x, targetRB.transform.position.y - transform.position.y).normalized;
+            bounceVector.x = AntiClamp(bounceVector.x, -maxX, maxX);
             targetRB.velocity = bounceVector * intensity;
         }
     }
 
-    float AntiClamp(float myRandFloat, float minValue, float maxValue) {
-        float calcFloat = myRandFloat;
-        calcFloat += Random.Range(minValue, maxValue);
-        if (calcFloat > -0.01f && calcFloat < 0.01f) {
-            AntiClamp(myRandFloat, minValue, maxValue);
+    float AntiClamp(float myFloat, float minValue, float maxValue) {
+        float midPoint = (minValue + maxValue) / 2f;
+        if (myFloat > minValue && myFloat < maxValue) {
+            if (myFloat == midPoint) Debug.Log("fucking god damnit fuck shit");
+            if (myFloat > midPoint) myFloat = maxValue;
+            if (myFloat < midPoint) myFloat = minValue;
         }
-        myRandFloat = calcFloat;
-        return myRandFloat;
+        return myFloat;
     }
 }

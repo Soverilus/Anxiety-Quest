@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementBasic : MonoBehaviour {
+    CharacterStats myCS;
     JumpController myJC;
     Rigidbody2D myRB;
     float myInput;
@@ -10,8 +11,8 @@ public class MovementBasic : MonoBehaviour {
     float moveSpeed;
     public float maxMoveSpeed;
     float myAngle;
-
     void Start() {
+        myCS = GetComponent<CharacterStats>();
         myRB = GetComponent<Rigidbody2D>();
     }
 
@@ -19,7 +20,9 @@ public class MovementBasic : MonoBehaviour {
         moveSpeed = myMoveSpeed * myRB.mass;
         myInput = Input.GetAxisRaw("Horizontal");
         MovementCalc(myInput);
-        MovementFunct();
+        if (myCS.canMove) {
+            MovementFunct();
+        }
     }
 
     public float MovementCalc(float input) {
@@ -51,10 +54,12 @@ public class MovementBasic : MonoBehaviour {
         if (hit)
             returnDir = moveForce * hit.collider.gameObject.transform.TransformDirection(-direction);
         else returnDir = new Vector2(moveForce, 0);
-        ReturnAngleForce(hit);
+        //ReturnAngleForce(hit);
         return returnDir;
     }
+
     void ReturnAngleForce(RaycastHit2D hit) {
         myAngle = Vector2.Angle(hit.normal, Vector2.up);
     }
+    
 }

@@ -759,12 +759,12 @@ Prefab:
     - target: {fileID: 114549687641368296, guid: 1721efd0abba179418a151d0ed13483a,
         type: 2}
       propertyPath: maxX
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114549687641368296, guid: 1721efd0abba179418a151d0ed13483a,
         type: 2}
       propertyPath: intensity
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4608195308381794, guid: 1721efd0abba179418a151d0ed13483a, type: 2}
       propertyPath: m_LocalScale.x

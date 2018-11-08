@@ -46,6 +46,9 @@ public class JumpController : MonoBehaviour {
     }
 
     void Update() {
+        if (!myCS.canMove && grounded) {
+            myCS.canMove = true;
+        }
         if (myCS.canJump) {
             //hasMovedThisFrame = false;
             //myHorzMovement = Input.GetAxisRaw("Horizontal");
