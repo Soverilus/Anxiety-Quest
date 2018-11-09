@@ -12,16 +12,16 @@ public class WallCheck : MonoBehaviour {
     }
 
     private void OnTriggerStay2D(Collider2D collision) {
-        float dirMult;
-        if (collision.transform.position.x < transform.position.x) {
-            dirMult = 1f;
-        }
-        else {
-            dirMult = -1f;
-        }
-        myJC.WallChecker(dirMult);
+            float dirMult;
+            if (collision.transform.position.x < transform.position.x) {
+                dirMult = 1f;
+            }
+            else {
+                dirMult = -1f;
+            }
+            myJC.WallChecker(dirMult);
     }
     private void OnTriggerExit2D(Collider2D collision) {
-        myJC.wallRiding = false;
+            myJC.wallRiding = false;
     }
 }

@@ -69,7 +69,7 @@ public class JumpController : MonoBehaviour {
     }
     void WallRidingChanger() {
         if (wallRiding) {
-            if (rb.velocity.y <= 0f) {
+            if (rb.velocity.y <= 0f && Input.GetAxisRaw("Vertical") >= 0) {
                 rb.velocity = new Vector2(rb.velocity.x, Physics.gravity.y * 0.75f * Time.deltaTime);
             }
         }
@@ -78,8 +78,8 @@ public class JumpController : MonoBehaviour {
     public void WallChecker(float dirMult) {
         if (!grounded) {
             wallRiding = true;
-            wallDirection = dirMult * wallJumpForce * 1.25f;
             if (!isHoldingJump) {
+                wallDirection = dirMult * wallJumpForce * 1.25f;
                 wallJumpTimeCounter = 0f;
             }
         }
