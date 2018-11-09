@@ -49,12 +49,10 @@ public class JumpController : MonoBehaviour {
         if (!myCS.canMove && grounded) {
             myCS.canMove = true;
         }
-        if (myCS.canJump) {
-            //hasMovedThisFrame = false;
-            //myHorzMovement = Input.GetAxisRaw("Horizontal");
-            JumpFunct();
-            GroundChecker();
-        }
+        //hasMovedThisFrame = false;
+        //myHorzMovement = Input.GetAxisRaw("Horizontal");
+        if (myCS.canJump) JumpFunct();
+        GroundChecker();
         WallRidingChanger();
     }
 
@@ -100,7 +98,7 @@ public class JumpController : MonoBehaviour {
                     }
                     if (myCS.canWallJump && stoppedWallJumping && wallRiding && !grounded) {
                         stoppedWallJumping = false;
-                        rb.velocity = new Vector2(wallDirection, wallJumpForce);
+                        rb.velocity = new Vector2(wallDirection, wallJumpForce / 1.25f);
                     }
                 }
             }
@@ -117,7 +115,7 @@ public class JumpController : MonoBehaviour {
             if (!stoppedWallJumping) {
                 if (wallJumpTimeCounter < wallJumpTime) {
                     wallJumpTimeCounter += Time.deltaTime;
-                    rb.velocity = new Vector2(wallDirection, wallJumpForce);
+                    rb.velocity = new Vector2(wallDirection, wallJumpForce / 1.25f);
                 }
             }
         }

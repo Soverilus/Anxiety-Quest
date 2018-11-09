@@ -40,10 +40,11 @@ public class MovementBasic : MonoBehaviour {
         }
         if (
             (myRB.velocity.x > 0f && myInput <= 0f) ||
-            (myRB.velocity.x < 0f && myInput >= 0f)
+            (myRB.velocity.x < 0f && myInput >= 0f) ||
+            (myRB.velocity.x > maxMoveSpeed) ||
+            (myRB.velocity.x < -maxMoveSpeed)
             ) {
-
-            myRB.AddForce(new Vector2(myRB.velocity.x * -1f * moveSpeed, 0f));
+            myRB.AddForce(new Vector2(myRB.velocity.x * -1.25f * moveSpeed, 0f));
         }
     }
 
