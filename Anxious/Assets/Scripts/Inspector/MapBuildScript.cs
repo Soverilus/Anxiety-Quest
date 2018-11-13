@@ -13,7 +13,8 @@ public class MapBuildScript : MonoBehaviour {
     }
 
     public void BuildMap() {
-        Debug.Log("It Worked");
+        //Debug.Log("It Worked");
+        TestBuildMap();
     }
 
     void TestBuildMap() {
@@ -24,39 +25,35 @@ public class MapBuildScript : MonoBehaviour {
 
                 if (myColor == Color.blue) {
                     //Blue = Platform
-                    Instantiate(mapObjects[0], new Vector2(w, h), Quaternion.identity);
+                    Instantiate(mapObjects[0], new Vector2(w * mapObjects[0].transform.lossyScale.x, h * mapObjects[0].transform.lossyScale.y), Quaternion.identity);
                 }
 
                 if (myColor == Color.red) {
                     //Red = Fake Platform
-                    Instantiate(mapObjects[1], new Vector2(w, h), Quaternion.identity);
+                    Instantiate(mapObjects[1], new Vector2(w * mapObjects[1].transform.lossyScale.x, h * mapObjects[1].transform.lossyScale.y), Quaternion.identity);
                 }
 
-                if (myColor == Color.yellow) {
+                if (myColor == Color.white) {
                     //Yellow = Special Platform
-                    Instantiate(mapObjects[2], new Vector2(w, h), Quaternion.identity);
+                    Instantiate(mapObjects[2], new Vector2(w * mapObjects[2].transform.lossyScale.x, h * mapObjects[2].transform.lossyScale.y), Quaternion.identity);
                 }
 
                 if (myColor == Color.magenta) {
-                    //Magenta = Trap
-                    Instantiate(mapObjects[3], new Vector2(w, h), Quaternion.identity);
+                    //Magenta = Trap                       
+                    Instantiate(mapObjects[3], new Vector2(w * mapObjects[3].transform.lossyScale.x, h * mapObjects[3].transform.lossyScale.y), Quaternion.identity);
                 }
 
                 if (myColor == Color.black) {
-                    //Black = Enemy
-                    Instantiate(mapObjects[4], new Vector2(w, h), Quaternion.identity);
+                    //Black = Enemy                        
+                    Instantiate(mapObjects[4], new Vector2(w * mapObjects[4].transform.lossyScale.x, h * mapObjects[4].transform.lossyScale.y), Quaternion.identity);
                 }
 
                 if (myColor == Color.green) {
                     //Green = Spawn
-                    GameObject.FindGameObjectWithTag("PlayerHolder").transform.position = new Vector2(w,h);
-                }
-
-                if (myColor == Color.white) {
-                    //White = ???
-                    //Instantiate(mapObjects[6], new Vector2(w, h), Quaternion.identity);
+                    GameObject.FindGameObjectWithTag("PlayerHolder").transform.position = new Vector2(w * mapObjects[0].transform.lossyScale.x, h * mapObjects[0].transform.lossyScale.y);
                 }
             }
         }
+        Debug.Log("It Worked");
     }
 }
