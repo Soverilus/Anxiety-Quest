@@ -43,3 +43,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Trap
+    uniqueID: 3826452895
+    locked: 0
+  - name: Ground
+    uniqueID: 1305912737
+    locked: 0
+  - name: Player
+    uniqueID: 3018840265
+    locked: 0
+  - name: Enemy
+    uniqueID: 1931185035
+    locked: 0
+  - name: Mirror
+    uniqueID: 1798920231
+    locked: 0

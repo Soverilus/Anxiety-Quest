@@ -7,6 +7,7 @@ public class CameraScript : MonoBehaviour {
     public GameObject myTargetObj;
     Vector3 myTarget;
     public bool fallScale;
+    public float colorGradeSpeed;
 
     private void Start() {
         thisCam = GetComponent<Camera>();
@@ -22,6 +23,7 @@ public class CameraScript : MonoBehaviour {
         if (fallScale) {
             if (myTarget.y <= transform.position.y - thisCam.orthographicSize / 2) {
                 thisCam.orthographicSize = (transform.position.y - myTarget.y) * 2f;
+                thisCam.backgroundColor = new Color(thisCam.backgroundColor.r - colorGradeSpeed/2, thisCam.backgroundColor.g - colorGradeSpeed, thisCam.backgroundColor.b - colorGradeSpeed);
             }
         }
     }

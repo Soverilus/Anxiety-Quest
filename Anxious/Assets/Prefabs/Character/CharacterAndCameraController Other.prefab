@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4328838007033028}
   m_Layer: 0
   m_Name: CharacterAndCameraController Other
-  m_TagString: Untagged
+  m_TagString: PlayerHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51,7 +51,7 @@ GameObject:
   - component: {fileID: 4621207166846612}
   - component: {fileID: 70746575595102444}
   - component: {fileID: 114977296216557302}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WallCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 1838761724557358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4820268096233914}
   - {fileID: 4621207166846612}
@@ -119,7 +119,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1148602944303024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.007100582, y: -0.5998876, z: 0}
+  m_LocalPosition: {x: 2.24, y: 17.436, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4063612503250612}
@@ -190,7 +190,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -274,11 +274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d7d2140084158e4297bca98df88ddc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 3
+  jumpForce: 4
   wallJumpForce: 4
-  jumpTime: 0.1
+  jumpTime: 0.3
   jumpTimeCounter: 0
-  wallJumpTime: 0.01
+  wallJumpTime: 0.2
   wallJumpTimeCounter: 0
   isHoldingJump: 0
   grounded: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myMoveSpeed: 5
-  maxMoveSpeed: 6
+  maxMoveSpeed: 4
 --- !u!114 &114788970361587582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -328,8 +328,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  canJump: 0
-  canWallJump: 0
+  canJump: 1
+  canWallJump: 1
   canSprint: 0
   canFocus: 0
   anxietyLevel: 0
@@ -376,8 +376,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1276127031
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ea63b6807211f9e44a1d8ca25fcbb71f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

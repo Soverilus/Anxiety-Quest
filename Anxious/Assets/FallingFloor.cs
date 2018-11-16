@@ -7,12 +7,15 @@ public class FallingFloor : MonoBehaviour {
     Renderer myRend;
     private void OnCollisionExit2D(Collision2D collision) {
         myRend = GetComponent<Renderer>();
-        myRB = gameObject.AddComponent<Rigidbody2D>();
+        if (myRB == null) {
+            myRB = gameObject.AddComponent<Rigidbody2D>();
+        }
         myRB.mass = 100000f;
         myRB.angularDrag = 0f;
         myRB.drag = 0f;
         myRB.gravityScale = 1.05f;
         myRB.angularVelocity = (transform.position.x + collision.transform.position.x) *10f;
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
     private void Update() {

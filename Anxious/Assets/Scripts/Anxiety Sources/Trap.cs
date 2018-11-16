@@ -24,11 +24,18 @@ public class Trap : MonoBehaviour {
 
     float AntiClamp(float myFloat, float minValue, float maxValue) {
         float midPoint = (minValue + maxValue) / 2f;
-        if (myFloat > minValue && myFloat < maxValue) {
-            if (myFloat == midPoint) Debug.Log("fucking god damnit fuck shit");
+        int rand = -1;
+        if ((myFloat > minValue) && (myFloat < maxValue)) {
+            if (myFloat == midPoint) rand = Random.Range(0, 2);
+            if (rand == 1) {
+                myFloat += float.MinValue;
+            }
+            else if (rand == 0){
+                myFloat -= float.MinValue;
+            }
             if (myFloat > midPoint) myFloat = maxValue;
             if (myFloat < midPoint) myFloat = minValue;
         }
-        return myFloat;
+            return myFloat;
     }
 }
