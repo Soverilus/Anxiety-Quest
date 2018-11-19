@@ -5,6 +5,8 @@ using UnityEngine;
 public class JumpController : MonoBehaviour {
     CharacterStats myCS;
     MovementBasic myMB;
+    public GameObject myCharacterLight;
+    public GameObject myCharacterDark;
     /*these floats are the force you use to jump, the max time you want your jump to be allowed to happen,
      * and a counter to track how long you have been jumping*/
     public float jumpForce;
@@ -60,10 +62,17 @@ public class JumpController : MonoBehaviour {
         //determines whether our bool, grounded, is true or false by seeing if our groundcheck overlaps something on the ground layer
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
         //if we are grounded...
-        if (grounded && stoppedJumping) {
-            //the jumpcounter is whatever we set jumptime to in the editor.
-            if (!isHoldingJump) {
-                jumpTimeCounter = 0;
+        if (grounded) {
+            myCharacterLight.SetActive(true);
+            if (myCharacterLight.transform.localScale.sqrMagnitude < Vector3.one.sqrMagnitude) {
+                myCharacterLight.transform.localScale += Vector3.one * 2f * Time.deltaTime;
+                myCharacterDark.transform.localScale += Vector3.one * 2f * Time.deltaTime;
+            }
+            if (stoppedJumping) {
+                //the jumpcounter is whatever we set jumptime to in the editor.
+                if (!isHoldingJump) {
+                    jumpTimeCounter = 0;
+                }
             }
         }
     }
