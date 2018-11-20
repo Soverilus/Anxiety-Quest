@@ -41,6 +41,9 @@ public class FallingStoryDisplayer : MonoBehaviour {
         if (i.color.a < 1.0f) {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a + (Time.deltaTime / t));
         }
+        //to have this be a static function:
+        //optional return bool
+        //return color
         else hasFadedIn = true;
     }
 

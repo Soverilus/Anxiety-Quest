@@ -66,7 +66,7 @@ public class JumpController : MonoBehaviour {
             myCharacterLight.SetActive(true);
             if (myCharacterLight.transform.localScale.sqrMagnitude < Vector3.one.sqrMagnitude) {
                 myCharacterLight.transform.localScale += Vector3.one * 2f * Time.deltaTime;
-                myCharacterDark.transform.localScale += Vector3.one * 2f * Time.deltaTime;
+                myCharacterDark.transform.localScale += Vector3.one * 1.5f * Time.deltaTime;
             }
             if (stoppedJumping) {
                 //the jumpcounter is whatever we set jumptime to in the editor.
